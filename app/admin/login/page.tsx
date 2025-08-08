@@ -223,9 +223,6 @@ export default function AdminLoginPage() {
           </CardContent>
         </Card>
 
-        res.setHeader('Set-Cookie', `token=admin_token; Path=/; HttpOnly;`);
-
-
         {/* Security Notice */}
         <div className="mt-4 text-center">
           <p className="text-xs text-slate-400">

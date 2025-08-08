@@ -2,11 +2,13 @@
   "name": "my-lifesync-project",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://<tumhara-github-username>.github.io/<repo-name>",
   "scripts": {
-    "build": "next build",
     "dev": "next dev",
-    "lint": "next lint",
-    "start": "next start"
+    "build": "next build",
+    "export": "next export",
+    "predeploy": "npm run build && npm run export",
+    "deploy": "gh-pages -d out"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -46,6 +48,7 @@
     "cmdk": "1.0.4",
     "cors": "^2.8.5",
     "date-fns": "^3.6.0",
+    "dayjs": "^1.11.13",
     "embla-carousel-react": "8.5.1",
     "express": "^5.1.0",
     "input-otp": "1.4.1",
@@ -73,16 +76,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9.30.1",
     "eslint-config-next": "^15.3.5",
+    "gh-pages": "^6.1.1",
     "postcss": "^8.5",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
-  },
-  "description": "*Your personalized health management app*",
-  "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }

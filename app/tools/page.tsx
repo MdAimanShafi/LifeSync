@@ -21,7 +21,7 @@ export default function ToolsPage() {
 
   // Water Tracker State
   const [waterIntake, setWaterIntake] = useState({
-    current: 4,
+    current: 4, 
     target: 8,
     glasses: [] as string[],
   })
@@ -36,9 +36,9 @@ export default function ToolsPage() {
 
   // Expense Tracker State
   const [expenses, setExpenses] = useState([
-    { id: 1, medicine: "Vitamin D3", amount: 250, date: "2024-01-15" },
-    { id: 2, medicine: "Omega-3", amount: 450, date: "2024-01-14" },
-    { id: 3, medicine: "Multivitamin", amount: 180, date: "2024-01-13" },
+    { id: 1, medicine: "Vitamin D3", amount: 250, date: "2025-01-15" },
+    { id: 2, medicine: "Omega-3", amount: 450, date: "2025-01-14" },
+    { id: 3, medicine: "Multivitamin", amount: 180, date: "2025-01-13" },
   ])
 
   const calculateBMI = () => {

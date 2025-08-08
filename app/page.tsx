@@ -57,9 +57,9 @@ export default function HomePage() {
                 </Button>
               </Link>
               <Link href="/admin/signup">
-                <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                  Admin Setup
-                </Button>
+                
+                  
+                
               </Link>
             </div>
           </div>
@@ -187,15 +187,7 @@ export default function HomePage() {
             <Link href="/auth/register">
               <Button size="lg" variant="secondary" className="w-full sm:w-auto">
                 Create Account
-              </Button>
-            </Link>
-            <Link href="/admin/signup">
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full sm:w-auto border-white text-white hover:bg-white hover:text-blue-600"
-              >
-                Setup Admin Account
+
               </Button>
             </Link>
           </div>

@@ -1,4 +1,4 @@
--- Sample data for MadeCare India application
+-- Sample data for LifeSync application
 -- This script populates the database with test data for development
 
 -- Insert sample users
@@ -11,42 +11,42 @@ INSERT INTO users (full_name, email, phone, password_hash, gender, date_of_birth
 
 -- Insert sample medicine schedules
 INSERT INTO medicine_schedules (user_id, medicine_name, dosage, start_date, end_date, times_per_day, number_of_days) VALUES
-((SELECT user_id FROM users WHERE email = 'john@example.com'), 'Vitamin D3', '1000 IU', '2024-01-01', '2024-01-30', '["08:00"]', 30),
-((SELECT user_id FROM users WHERE email = 'john@example.com'), 'Omega-3', '500mg', '2024-01-01', '2024-01-30', '["12:00"]', 30),
-((SELECT user_id FROM users WHERE email = 'john@example.com'), 'Multivitamin', '1 tablet', '2024-01-01', '2024-01-30', '["18:00"]', 30),
-((SELECT user_id FROM users WHERE email = 'john@example.com'), 'Calcium', '600mg', '2024-01-01', '2024-01-30', '["21:00"]', 30),
+((SELECT user_id FROM users WHERE email = 'john@example.com'), 'Vitamin D3', '1000 IU', '2025-01-01', '2025-01-30', '["08:00"]', 30),
+((SELECT user_id FROM users WHERE email = 'john@example.com'), 'Omega-3', '500mg', '2025-01-01', '2025-01-30', '["12:00"]', 30),
+((SELECT user_id FROM users WHERE email = 'john@example.com'), 'Multivitamin', '1 tablet', '2025-01-01', '2025-01-30', '["18:00"]', 30),
+((SELECT user_id FROM users WHERE email = 'john@example.com'), 'Calcium', '600mg', '2025-01-01', '2025-01-30', '["21:00"]', 30),
 
-((SELECT user_id FROM users WHERE email = 'jane@example.com'), 'Iron Supplement', '65mg', '2024-01-01', '2024-01-15', '["09:00", "21:00"]', 15),
-((SELECT user_id FROM users WHERE email = 'jane@example.com'), 'Folic Acid', '400mcg', '2024-01-01', '2024-01-15', '["08:00"]', 15),
+((SELECT user_id FROM users WHERE email = 'jane@example.com'), 'Iron Supplement', '65mg', '2025-01-01', '2025-01-15', '["09:00", "21:00"]', 15),
+((SELECT user_id FROM users WHERE email = 'jane@example.com'), 'Folic Acid', '400mcg', '2025-01-01', '2025-01-15', '["08:00"]', 15),
 
-((SELECT user_id FROM users WHERE email = 'mike@example.com'), 'Blood Pressure Med', '10mg', '2024-01-01', '2024-03-01', '["07:00", "19:00"]', 60),
-((SELECT user_id FROM users WHERE email = 'mike@example.com'), 'Cholesterol Med', '20mg', '2024-01-01', '2024-03-01', '["20:00"]', 60),
-((SELECT user_id FROM users WHERE email = 'mike@example.com'), 'Aspirin', '81mg', '2024-01-01', '2024-03-01', '["08:00"]', 60),
+((SELECT user_id FROM users WHERE email = 'mike@example.com'), 'Blood Pressure Med', '10mg', '2025-01-01', '2025-03-01', '["07:00", "19:00"]', 60),
+((SELECT user_id FROM users WHERE email = 'mike@example.com'), 'Cholesterol Med', '20mg', '2025-01-01', '2025-03-01', '["20:00"]', 60),
+((SELECT user_id FROM users WHERE email = 'mike@example.com'), 'Aspirin', '81mg', '2025-01-01', '2025-03-01', '["08:00"]', 60),
 
-((SELECT user_id FROM users WHERE email = 'sarah@example.com'), 'Antibiotic', '500mg', '2024-01-01', '2024-01-07', '["08:00", "14:00", "20:00"]', 7),
-((SELECT user_id FROM users WHERE email = 'sarah@example.com'), 'Probiotic', '1 capsule', '2024-01-08', '2024-01-22', '["09:00"]', 14),
+((SELECT user_id FROM users WHERE email = 'sarah@example.com'), 'Antibiotic', '500mg', '2025-01-01', '2025-01-07', '["08:00", "14:00", "20:00"]', 7),
+((SELECT user_id FROM users WHERE email = 'sarah@example.com'), 'Probiotic', '1 capsule', '2025-01-08', '2025-01-22', '["09:00"]', 14),
 
-((SELECT user_id FROM users WHERE email = 'david@example.com'), 'Diabetes Med', '500mg', '2024-01-01', '2024-04-01', '["07:00", "19:00"]', 90),
-((SELECT user_id FROM users WHERE email = 'david@example.com'), 'Vitamin B12', '1000mcg', '2024-01-01', '2024-04-01', '["08:00"]', 90);
+((SELECT user_id FROM users WHERE email = 'david@example.com'), 'Diabetes Med', '500mg', '2025-01-01', '2025-04-01', '["07:00", "19:00"]', 90),
+((SELECT user_id FROM users WHERE email = 'david@example.com'), 'Vitamin B12', '1000mcg', '2025-01-01', '2025-04-01', '["08:00"]', 90);
 
 -- Insert sample medicine logs
 INSERT INTO medicine_logs (schedule_id, user_id, scheduled_time, taken_time, status) VALUES
 -- John's logs for today
 ((SELECT schedule_id FROM medicine_schedules WHERE medicine_name = 'Vitamin D3' AND user_id = (SELECT user_id FROM users WHERE email = 'john@example.com')), 
  (SELECT user_id FROM users WHERE email = 'john@example.com'), 
- '2024-01-15 08:00:00', '2024-01-15 08:05:00', 'taken'),
+ '2025-01-15 08:00:00', '2025-01-15 08:05:00', 'taken'),
 
 ((SELECT schedule_id FROM medicine_schedules WHERE medicine_name = 'Omega-3' AND user_id = (SELECT user_id FROM users WHERE email = 'john@example.com')), 
  (SELECT user_id FROM users WHERE email = 'john@example.com'), 
- '2024-01-15 12:00:00', '2024-01-15 12:10:00', 'taken'),
+ '2025-01-15 12:00:00', '2025-01-15 12:10:00', 'taken'),
 
 ((SELECT schedule_id FROM medicine_schedules WHERE medicine_name = 'Multivitamin' AND user_id = (SELECT user_id FROM users WHERE email = 'john@example.com')), 
  (SELECT user_id FROM users WHERE email = 'john@example.com'), 
- '2024-01-15 18:00:00', NULL, 'pending'),
+ '2025-01-15 18:00:00', NULL, 'pending'),
 
 ((SELECT schedule_id FROM medicine_schedules WHERE medicine_name = 'Calcium' AND user_id = (SELECT user_id FROM users WHERE email = 'john@example.com')), 
  (SELECT user_id FROM users WHERE email = 'john@example.com'), 
- '2024-01-15 21:00:00', NULL, 'pending');
+ '2025-01-15 21:00:00', NULL, 'pending');
 
 -- Insert sample health articles
 INSERT INTO health_articles (title, content, author, category, tags, is_published) VALUES
@@ -74,19 +74,19 @@ INSERT INTO health_articles (title, content, author, category, tags, is_publishe
 INSERT INTO notifications (user_id, title, message, type, scheduled_for) VALUES
 ((SELECT user_id FROM users WHERE email = 'john@example.com'), 
  'Medicine Reminder', 'Time to take your Multivitamin (1 tablet)', 'reminder', 
- '2024-01-15 18:00:00'),
+ '2025-01-15 18:00:00'),
 
 ((SELECT user_id FROM users WHERE email = 'john@example.com'), 
  'Medicine Reminder', 'Time to take your Calcium (600mg)', 'reminder', 
- '2024-01-15 21:00:00'),
+ '2025-01-15 21:00:00'),
 
 ((SELECT user_id FROM users WHERE email = 'jane@example.com'), 
- 'Welcome to MadeCare!', 'Thank you for joining MadeCare India. Start by adding your first medicine schedule.', 'announcement', 
- '2024-01-20 10:00:00'),
+ 'Welcome to LifeSync!', 'Thank you for joining LifeSync. Start by adding your first medicine schedule.', 'announcement', 
+ '2025-01-20 10:00:00'),
 
 ((SELECT user_id FROM users WHERE email = 'mike@example.com'), 
  'Health Tip', 'Remember to check your blood pressure regularly and maintain a healthy diet.', 'alert', 
- '2024-01-15 09:00:00');
+ '2025-01-15 09:00:00');
 
 -- Update some users to inactive for testing
 UPDATE users SET is_active = false WHERE email = 'mike@example.com';

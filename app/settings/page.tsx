@@ -290,7 +290,7 @@ export default function SettingsPage() {
               </div>
               <div className="flex justify-between">
                 <span className={isDarkMode ? "text-gray-300" : "text-gray-600"}>Last Updated</span>
-                <span className={isDarkMode ? "text-white" : "text-gray-900"}>January 2024</span>
+                <span className={isDarkMode ? "text-white" : "text-gray-900"}>January 2025</span>
               </div>
               <div className="flex justify-between">
                 <span className={isDarkMode ? "text-gray-300" : "text-gray-600"}>Developer</span>

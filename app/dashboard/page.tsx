@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -18,39 +18,129 @@ import {
   AlertCircle,
   Brain,
   HelpCircle,
+  Sun,
+  Moon,
 } from "lucide-react"
 import Link from "next/link"
 
+type Medicine = {
+  id: number | string;
+  medicineName: string;
+  dosage: string;
+  time?: string;
+  taken?: boolean;
+  reminderTimes?: string[];
+  endDate?: string; // Add endDate to Medicine type
+};
+
+type Reminder = {
+  id: string;
+  medicine: string;
+  time: string;
+  timeLeft: string;
+};
+
 export default function DashboardPage() {
-  const [todaysMedicines] = useState([
-    { id: 1, name: "Vitamin D3", dosage: "1000 IU", time: "08:00 AM", taken: true },
-    { id: 2, name: "Omega-3", dosage: "500mg", time: "12:00 PM", taken: true },
-    { id: 3, name: "Multivitamin", dosage: "1 tablet", time: "06:00 PM", taken: false },
-    { id: 4, name: "Calcium", dosage: "600mg", time: "09:00 PM", taken: false },
-  ])
+  const [todaysMedicines, setTodaysMedicines] = useState<Medicine[]>([])
+  const [upcomingReminders, setUpcomingReminders] = useState<Reminder[]>([])
+  const [takenReminders, setTakenReminders] = useState<string[]>([]);
+  const [userProfile, setUserProfile] = useState<{ name: string; email: string } | null>(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const [upcomingReminders] = useState([
-    { id: 1, medicine: "Multivitamin", time: "6:00 PM", timeLeft: "2 hours" },
-    { id: 2, medicine: "Calcium", time: "9:00 PM", timeLeft: "5 hours" },
-  ])
+  useEffect(() => {
+    // Load profile and dark mode from localStorage
+    const profileRaw = localStorage.getItem("userProfile");
+    setUserProfile(profileRaw ? JSON.parse(profileRaw) : { name: "User", email: "" });
+    setIsDarkMode(localStorage.getItem("darkMode") === "true");
+  }, []);
 
-  const completionRate = Math.round((todaysMedicines.filter((m) => m.taken).length / todaysMedicines.length) * 100)
+  useEffect(() => {
+    let medicines: Medicine[] = [];
+    try {
+      const raw = localStorage.getItem("userMedicines");
+      medicines = raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      medicines = [];
+    }
+    const today = new Date().toISOString().slice(0, 10);
+    medicines = medicines.filter((med) => {
+      if (med.endDate) {
+        return med.endDate >= today;
+      }
+      return true;
+    });
+    setTodaysMedicines(medicines);
+
+    // Generate reminders for active medicines only
+    const reminders: Reminder[] = [];
+    medicines.forEach((med: Medicine) => {
+      if (med.reminderTimes && Array.isArray(med.reminderTimes)) {
+        med.reminderTimes.forEach((time: string) => {
+          reminders.push({
+            id: `${med.id}-${time}`,
+            medicine: med.medicineName,
+            time: time,
+            timeLeft: "-", // You can calculate time left if needed
+          });
+        });
+      }
+    });
+    setUpcomingReminders(reminders);
+  }, [])
+
+  // Notification and sound logic
+  useEffect(() => {
+    if (!('Notification' in window)) return;
+    Notification.requestPermission();
+    const interval = setInterval(() => {
+      const now = new Date();
+      upcomingReminders.forEach(reminder => {
+        const [h, m] = reminder.time.split(":");
+        const reminderDate = new Date();
+        reminderDate.setHours(Number(h), Number(m), 0, 0);
+        if (
+          now.getHours() === reminderDate.getHours() &&
+          now.getMinutes() === reminderDate.getMinutes() &&
+          !takenReminders.includes(reminder.id)
+        ) {
+          // Show notification
+          if (Notification.permission === "granted") {
+            new Notification("Medicine Reminder", {
+              body: `It's time to take your medicine: ${reminder.medicine}`,
+              icon: "/placeholder-logo.png"
+            });
+          }
+          // Play sound
+          const audio = new Audio("https://cdn.pixabay.com/audio/2022/10/16/audio_12b4b0b2b2.mp3");
+          audio.play();
+        }
+      });
+    }, 60000); // Check every minute
+    return () => clearInterval(interval);
+  }, [upcomingReminders, takenReminders]);
+
+  const completionRate = todaysMedicines.length > 0 ? Math.round((todaysMedicines.filter((m) => m.taken).length / todaysMedicines.length) * 100) : 0
+
+  const handleMarkTaken = (reminderId: string) => {
+    setTakenReminders([...takenReminders, reminderId]);
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={`min-h-screen ${isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50"}`}>
       {/* Header */}
       <header className="bg-white border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Heart className="h-8 w-8 text-blue-600" />
             <span className="text-2xl font-bold text-gray-900">LifeSync Smart Care</span>
+            <span className="ml-4 text-lg font-semibold">{userProfile?.name}</span>
           </div>
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm">
-              <Bell className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="sm">
-              <Settings className="h-4 w-4" />
+            <Button variant="ghost" size="sm" onClick={() => {
+              localStorage.setItem("darkMode", (!isDarkMode).toString());
+              setIsDarkMode(!isDarkMode);
+            }}>
+              {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
             <Button variant="ghost" size="sm">
               <User className="h-4 w-4" />
@@ -58,14 +148,12 @@ export default function DashboardPage() {
           </div>
         </div>
       </header>
-
       <div className="container mx-auto px-4 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back</h1>
           <p className="text-gray-600">Here&apos;s your health summary for today</p>
         </div>
-
         {/* Stats Cards */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
           <Card>
@@ -115,7 +203,6 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </div>
-
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Today's Medicines */}
           <div className="lg:col-span-2">
@@ -144,7 +231,7 @@ export default function DashboardPage() {
                       <div className="flex items-center space-x-4">
                         <div className={`w-3 h-3 rounded-full ${medicine.taken ? "bg-green-500" : "bg-gray-300"}`} />
                         <div>
-                          <h3 className="font-medium">{medicine.name}</h3>
+                          <h3 className="font-medium">{medicine.medicineName}</h3>
                           <p className="text-sm text-gray-600">{medicine.dosage}</p>
                         </div>
                       </div>
@@ -155,7 +242,6 @@ export default function DashboardPage() {
                             {medicine.taken ? "Taken" : "Pending"}
                           </Badge>
                         </div>
-                        {!medicine.taken && <Button size="sm">Mark Taken</Button>}
                       </div>
                     </div>
                   ))}
@@ -163,7 +249,6 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
           </div>
-
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Upcoming Reminders */}
@@ -176,19 +261,23 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {upcomingReminders.map((reminder) => (
+                  {upcomingReminders.filter(r => !takenReminders.includes(r.id)).map((reminder) => (
                     <div key={reminder.id} className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                       <div>
                         <p className="font-medium text-sm">{reminder.medicine}</p>
                         <p className="text-xs text-gray-600">{reminder.time}</p>
                       </div>
-                      <Badge variant="outline">{reminder.timeLeft}</Badge>
+                      <div className="flex items-center space-x-2">
+                        <Badge variant="outline">{reminder.timeLeft}</Badge>
+                        <Button size="sm" onClick={() => handleMarkTaken(reminder.id)}>
+                          Mark Taken
+                        </Button>
+                      </div>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
-
             {/* Health Tips */}
             <Card>
               <CardHeader>
@@ -206,7 +295,6 @@ export default function DashboardPage() {
                 </div>
               </CardContent>
             </Card>
-
             {/* Quick Actions */}
             <Card>
               <CardHeader>

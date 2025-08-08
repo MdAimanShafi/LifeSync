@@ -199,7 +199,7 @@ export default function HelpPage() {
                 <div className="space-y-2">
                   <Button variant="outline" className="w-full">
                     <Phone className="h-4 w-4 mr-2" />
-                    +91 9942852002
+                    +91 99XXXXXXXX
                   </Button>
                   <p className="text-xs text-center text-gray-500">MD Aiman Shafi</p>                  
                 </div>
@@ -216,7 +216,7 @@ export default function HelpPage() {
                 <div className="space-y-2">
                   <Button variant="outline" className="w-full">
                     <Mail className="h-4 w-4 mr-2" />
-                    mdaimanshafi492@gmail.com
+                    lifesync2025@gmail.com
                   </Button>
                   <Button variant="outline" className="w-full">
                     <Mail className="h-4 w-4 mr-2" />

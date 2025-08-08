@@ -14,7 +14,6 @@ export default function AppEditorPage() {
     appName: "lifeSync",
     tagline: "Smart Healthcare Made Simple",
     welcomeMessage: "Welcome back! Here's your health summary for today",
-    contactPhone1: "+91 7543983040",
     contactPhone2: "+91 6205413147",
     contactEmail1: "support@lifesync.in",
     contactEmail2: "contact@lifesync.in",
@@ -99,7 +98,7 @@ export default function AppEditorPage() {
           <Label htmlFor="contactPhone1">Contact Phone 1</Label>
           <Input
             id="contactPhone1"
-            value={appContent.contactPhone1}
+            value={appContent.contactPhone2}
             onChange={(e) => handleChange("contactPhone1", e.target.value)}
           />
         </div>

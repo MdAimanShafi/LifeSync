@@ -42,7 +42,7 @@ export default function AdminSignupPage() {
 
     try {
       // Validate admin code (in real app, this would be a secure server-side check)
-      const validAdminCode = "MADECARE2024ADMIN"
+      const validAdminCode = "LifeSync2025Admin"
       if (formData.adminCode !== validAdminCode) {
         alert("Invalid admin setup code. Contact system administrator.")
         setIsLoading(false)
@@ -351,7 +351,7 @@ export default function AdminSignupPage() {
                   />
                 </div>
                 <p className="text-xs text-slate-400">
-                  Contact system administrator for the setup code: MADECARE2024ADMIN
+                  
                 </p>
               </div>
 
@@ -370,7 +370,7 @@ export default function AdminSignupPage() {
             </div>
           </CardContent>
         </Card>
-
+        
         {/* Security Notice */}
         <div className="mt-4 text-center">
           <p className="text-xs text-slate-400">
