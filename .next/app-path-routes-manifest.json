@@ -1,0 +1,17 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/about/page": "/about",
+  "/ai-assistant/page": "/ai-assistant",
+  "/auth/login/page": "/auth/login",
+  "/auth/register/page": "/auth/register",
+  "/dashboard/page": "/dashboard",
+  "/help/page": "/help",
+  "/medicines/add/page": "/medicines/add",
+  "/page": "/",
+  "/settings/page": "/settings",
+  "/tools/page": "/tools",
+  "/admin/app-editor/page": "/admin/app-editor",
+  "/admin/dashboard/page": "/admin/dashboard",
+  "/admin/signup/page": "/admin/signup",
+  "/admin/login/page": "/admin/login"
+}
